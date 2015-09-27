@@ -58,7 +58,8 @@ public class MovieQueryService {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
                 movieInfo.setOriginalTitle(movieResult.getString("original_title"));
-                movieInfo.setMoviePosterImageThumbnail(movieResult.getString("backdrop_path"));
+                movieInfo.setMoviePosterImageThumbnail(
+                        "http://image.tmdb.org/t/p/w185" + movieResult.getString("poster_path"));
                 movieInfo.setSynopsis(movieResult.getString("overview"));
                 movieInfo.setRating(new BigDecimal(movieResult.getString("vote_average")));
                 movieInfo.setReleaseDate(dateFormat.parse(movieResult.getString("release_date")));
