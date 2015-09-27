@@ -17,19 +17,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieQueryService {
+    private String apiKey;
 
-    public static List<MovieInfo> getMostPopularMovies() {
+    public MovieQueryService(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    public List<MovieInfo> getMostPopularMovies() {
         List<MovieInfo> movieInfoList = new ArrayList<>();
 
         final String BASE_API_URL = "http://api.themoviedb.org/3/discover/movie";
         final String SORT_PARAM = "sort_by";
         final String SORT_BY_POPULARITY_DESC = "popularity.desc";
         final String API_PARAM = "api_key";
-        final String API_KEY = "";
 
         Uri queryUri = Uri.parse(BASE_API_URL).buildUpon()
                 .appendQueryParameter(SORT_PARAM, SORT_BY_POPULARITY_DESC)
-                .appendQueryParameter(API_PARAM, API_KEY)
+                .appendQueryParameter(API_PARAM, apiKey)
                 .build();
 
         try {

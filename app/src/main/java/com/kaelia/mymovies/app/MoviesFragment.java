@@ -30,16 +30,19 @@ public class MoviesFragment extends Fragment {
         GridView gridMovies = (GridView) viewRoot.findViewById(R.id.gridview_movies);
         gridMovies.setAdapter(moviesAdapter);
 
-        new FetchMoviesInfoTask().execute();
+        String apiKey = getString(R.string.tmdb_apikey, "");
+
+        new FetchMoviesInfoTask().execute(apiKey);
 
         return viewRoot;
     }
 
-    private class FetchMoviesInfoTask extends AsyncTask<Void, Void, List<MovieInfo>> {
+    private class FetchMoviesInfoTask extends AsyncTask<String, Void, List<MovieInfo>> {
 
         @Override
-        protected List<MovieInfo> doInBackground(Void... params) {
-            return MovieQueryService.getMostPopularMovies();
+        protected List<MovieInfo> doInBackground(String... params) {
+            String apiKey = params[0];
+            return new MovieQueryService(apiKey).getMostPopularMovies();
         }
 
         @Override
