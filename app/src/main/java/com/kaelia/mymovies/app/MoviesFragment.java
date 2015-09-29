@@ -2,6 +2,7 @@ package com.kaelia.mymovies.app;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,17 @@ import java.util.List;
 public class MoviesFragment extends Fragment {
     private MoviesAdapter moviesAdapter;
 
-    public MoviesFragment() {
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateMovies();
+    }
+
+    private void updateMovies() {
+        String apiKey = getString(R.string.tmdb_apikey, "");
+        String sortOrder = getSortOrderFromPreferences();
+
+        new FetchMoviesInfoTask().execute(apiKey, sortOrder);
     }
 
     @Override
@@ -30,11 +41,13 @@ public class MoviesFragment extends Fragment {
         GridView gridMovies = (GridView) viewRoot.findViewById(R.id.gridview_movies);
         gridMovies.setAdapter(moviesAdapter);
 
-        String apiKey = getString(R.string.tmdb_apikey, "");
-
-        new FetchMoviesInfoTask().execute(apiKey);
-
         return viewRoot;
+    }
+
+    private String getSortOrderFromPreferences() {
+        return PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .getString(getString(R.string.pref_key_sort_type),
+                        getString(R.string.most_popular_value));
     }
 
     private class FetchMoviesInfoTask extends AsyncTask<String, Void, List<MovieInfo>> {
@@ -42,7 +55,8 @@ public class MoviesFragment extends Fragment {
         @Override
         protected List<MovieInfo> doInBackground(String... params) {
             String apiKey = params[0];
-            return new MovieQueryService(apiKey).getMostPopularMovies();
+            String sortOrder = params[1];
+            return new MovieQueryService(apiKey).getMostPopularMovies(sortOrder);
         }
 
         @Override
