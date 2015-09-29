@@ -10,8 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 class ApiRequest {
-    private static final String BASE_API_URL = "http://api.themoviedb.org/3/discover/movie";
-    private static final String SORT_PARAM = "sort_by";
+    private static final String BASE_API_URL = "http://api.themoviedb.org/3/movie/";
     private static final String API_PARAM = "api_key";
     private static final String REQUEST_METHOD = "GET";
 
@@ -31,8 +30,7 @@ class ApiRequest {
     }
 
     private URL getUrlForMostPopular() throws MalformedURLException {
-        Uri queryUri = Uri.parse(BASE_API_URL).buildUpon()
-                .appendQueryParameter(SORT_PARAM, sortType)
+        Uri queryUri = Uri.parse(BASE_API_URL + sortType).buildUpon()
                 .appendQueryParameter(API_PARAM, apiKey)
                 .build();
         return new URL(queryUri.toString());

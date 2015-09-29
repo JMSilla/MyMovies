@@ -52,10 +52,11 @@ public class MoviesAdapter extends BaseAdapter {
         }
 
         ImageView moviePoster = (ImageView) convertView.findViewById(R.id.movie_poster);
-        moviePoster.setContentDescription(movie.getOriginalTitle());
 
         if (movie.getMoviePosterImageThumbnail() != null)
             Picasso.with(context).load(movie.getMoviePosterImageThumbnail()).into(moviePoster);
+        else
+            moviePoster.setImageResource(android.R.color.transparent);
 
         return convertView;
     }

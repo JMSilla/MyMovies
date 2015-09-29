@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieQueryService {
-    private static final String SORT_BY_POPULARITY_DESC = "popularity.desc";
+    private static final String SORT_BY_POPULARITY_DESC = "popular"; //"top_rated";
 
     private String apiKey;
 

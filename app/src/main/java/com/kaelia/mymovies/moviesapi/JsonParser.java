@@ -1,6 +1,7 @@
 package com.kaelia.mymovies.moviesapi;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 class JsonParser {
+    private static final String LOG_TAG = JsonParser.class.getSimpleName();
+
     private static final String IMAGES_BASE_URL = "http://image.tmdb.org/t/p/w185";
     private static final String RESULTS_ARRAY = "results";
     private static final String ORIGINAL_TITLE = "original_title";
@@ -57,8 +60,10 @@ class JsonParser {
 
         if (posterPath.equals(JSON_NULL))
             movieInfo.setMoviePosterImageThumbnail(null);
-        else
+        else {
             movieInfo.setMoviePosterImageThumbnail(IMAGES_BASE_URL + posterPath);
+            Log.v(LOG_TAG, movieInfo.getMoviePosterImageThumbnail());
+        }
 
         movieInfo.setSynopsis(movieResult.getString(SYNOPSIS));
         movieInfo.setRating(new BigDecimal(movieResult.getString(RATING)));
