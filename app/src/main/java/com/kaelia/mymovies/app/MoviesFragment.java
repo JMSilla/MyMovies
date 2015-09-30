@@ -13,6 +13,7 @@ import android.widget.GridView;
 
 import com.kaelia.mymovies.moviesapi.MovieInfo;
 import com.kaelia.mymovies.moviesapi.MovieQueryService;
+import com.kaelia.mymovies.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,18 +49,17 @@ public class MoviesFragment extends Fragment {
                 MovieInfo clickedMovie = moviesAdapter.getMovie(position);
                 Intent startDetailActivityIntent = new Intent(getActivity(), DetailsActivity.class);
 
-                startDetailActivityIntent.putExtra("ORIGINAL_TITLE", clickedMovie.getOriginalTitle());
-                startDetailActivityIntent.putExtra("MOVIE_POSTER_THUMBNAIL",
+                startDetailActivityIntent.putExtra(DetailsFragment.PARAM_ORIGINAL_TITLE,
+                        clickedMovie.getOriginalTitle());
+                startDetailActivityIntent.putExtra(DetailsFragment.PARAM_MOVIE_POSTER_THUMBNAIL,
                         clickedMovie.getMoviePosterImageThumbnail());
-                startDetailActivityIntent.putExtra("RELEASE_DATE",
-                        clickedMovie.getReleaseDate().toString());
-                startDetailActivityIntent.putExtra("USER_RATING",
-                        clickedMovie.getRating().floatValue());
-
-                startDetailActivityIntent.putExtra("SYNOPSIS", clickedMovie.getSynopsis());
+                startDetailActivityIntent.putExtra(DetailsFragment.PARAM_RELEASE_YEAR,
+                        DateUtils.getYear(clickedMovie.getReleaseDate()));
+                startDetailActivityIntent.putExtra(DetailsFragment.PARAM_USER_RATING,
+                        clickedMovie.getRating() + getString(R.string.max_user_rating));
+                startDetailActivityIntent.putExtra(DetailsFragment.PARAM_SYNOPSIS, clickedMovie.getSynopsis());
 
                 startActivity(startDetailActivityIntent);
-
             }
         });
 
