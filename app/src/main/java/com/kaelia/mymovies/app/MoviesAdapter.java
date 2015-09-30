@@ -36,6 +36,10 @@ public class MoviesAdapter extends BaseAdapter {
         return movieInfoList.get(position);
     }
 
+    public MovieInfo getMovie(int position) {
+        return movieInfoList.get(position);
+    }
+
     @Override
     public long getItemId(int position) {
         return position;

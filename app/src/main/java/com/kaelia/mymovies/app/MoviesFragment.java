@@ -1,5 +1,6 @@
 package com.kaelia.mymovies.app;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.kaelia.mymovies.moviesapi.MovieInfo;
@@ -40,6 +42,26 @@ public class MoviesFragment extends Fragment {
 
         GridView gridMovies = (GridView) viewRoot.findViewById(R.id.gridview_movies);
         gridMovies.setAdapter(moviesAdapter);
+        gridMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MovieInfo clickedMovie = moviesAdapter.getMovie(position);
+                Intent startDetailActivityIntent = new Intent(getActivity(), DetailsActivity.class);
+
+                startDetailActivityIntent.putExtra("ORIGINAL_TITLE", clickedMovie.getOriginalTitle());
+                startDetailActivityIntent.putExtra("MOVIE_POSTER_THUMBNAIL",
+                        clickedMovie.getMoviePosterImageThumbnail());
+                startDetailActivityIntent.putExtra("RELEASE_DATE",
+                        clickedMovie.getReleaseDate().toString());
+                startDetailActivityIntent.putExtra("USER_RATING",
+                        clickedMovie.getRating().floatValue());
+
+                startDetailActivityIntent.putExtra("SYNOPSIS", clickedMovie.getSynopsis());
+
+                startActivity(startDetailActivityIntent);
+
+            }
+        });
 
         return viewRoot;
     }
